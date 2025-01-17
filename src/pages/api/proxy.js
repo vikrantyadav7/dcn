@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-  const baseUrl = process.env.NEXT_PUBLIC_JAZE_API_BASE_URL;
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  const baseUrl = process.env.JAZE_API_BASE_URL;
+  const apiKey = process.env.API_KEY;
   const allowedOrigin =
     process.env.NEXT_PUBLIC_ALLOWED_ORIGIN || "http://localhost:8231";
 
