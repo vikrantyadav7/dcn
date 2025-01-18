@@ -6,6 +6,24 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
+  const allowedOrigin =
+    process.env.NEXT_PUBLIC_ALLOWED_ORIGIN || "http://localhost:8231";
+
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // Handle preflight (OPTIONS) requests
+  if (req.method === "OPTIONS") {
+    console.log("[LOG] OPTIONS request received. Returning 200.");
+    return res.status(200).end();
+  }
+
+  // Handle DELETE request
   if (req.method === "DELETE") {
     const { userId } = req.body;
 
@@ -18,15 +36,19 @@ export default async function handler(req, res) {
       const { error } = await supabase.auth.admin.deleteUser(userId);
 
       if (error) {
-        throw error;
+        console.error("[ERROR] Supabase Error:", error);
+        return res.status(500).json({ error: error.message });
       }
 
-      res.status(200).json({ message: "User deleted successfully" });
+      console.log("[LOG] User deleted successfully:", userId);
+      return res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error("[ERROR] Server Error:", error);
+      return res.status(500).json({ error: error.message });
     }
   } else {
+    // Handle unsupported methods
     res.setHeader("Allow", ["DELETE"]);
-    res.status(405).json({ error: `Method ${req.method} not allowed` });
+    return res.status(405).json({ error: `Method ${req.method} not allowed` });
   }
 }
