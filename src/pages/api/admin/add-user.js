@@ -11,7 +11,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" , "env": "process.env" });
+    return res.status(405).json({ error: "Method not allowed" , "env": process.env });
   }
     console.log("All environment variables:", process.env);
 
