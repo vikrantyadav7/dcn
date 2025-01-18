@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-  const baseUrl = process.env.JAZE_API_BASE_URL;
-  const apiKey = process.env.API_KEY;
+  const baseUrl = process.env.NEXT_PUBLIC_JAZE_API_BASE_URL;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
   const allowedOrigin =
     process.env.NEXT_PUBLIC_ALLOWED_ORIGIN || "http://localhost:8231";
 
@@ -43,13 +43,13 @@ export default async function handler(req, res) {
     )}`;
     console.log(`[LOG] Constructed Target URL: ${targetUrl}`);
 
-    // Set up headers for the API call
+    // Set up headers for the API cal
     const headers = {
       Authorization: `Basic ${apiKey}`,
       "Content-Type": "application/json",
     };
 
-    console.log("[LOG] Sending API request with headers:", headers);
+    // console.log("[LOG] Sending API request with headers:", headers);
 
     // Perform the API call
     const apiResponse = await fetch(targetUrl, { method: req.method, headers });
