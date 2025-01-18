@@ -11,7 +11,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" , "env": process.env });
+    return res.status(405).json({ error: "Method not allowed" , "env": process.env.SUPABASE_URL , "jaze": process.env.JAZE_API_BASE_URL , "service": process.env.SUPABASE_SERVICE_ROLE_KEY });
   }
     console.log("All environment variables:", process.env);
 
